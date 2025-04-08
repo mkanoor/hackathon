@@ -1,0 +1,27 @@
+---
+- name: kafka listener
+  hosts: all
+  sources:
+    - name: my_kafka_listener
+      ansible.eda.kafka:
+        host: "{{ host | default('localhost') }}"
+        port: "{{ port | default('9092') }}"
+        cafile: "{{ eda.filename.cafile | default(None) }}"
+        certfile: "{{ eda.filename.certfile | default(None) }}"
+        keyfile:  "{{ eda.filename.keyfile | default(None) }}"
+        password: "{{ key_password | default(None) }}"
+        check_hostname: "{{ check_hostname | default(true) }}"
+        verify_mode: "{{ verify_mode | default('CERT_REQUIRED') }}"
+        encoding: "{{ encoding | default('utf-8') }}"
+        topic: "{{ topic | default('demo') }}"
+        group_id: "{{ group_id | default(None) }}"
+        offset: "{{ offset | default('latest') }}"
+        security_protocol: "{{ security_protocol | default('PLAINTEXT') }}"
+        sasl_mechanism: "{{ sasl_mechanism | default('PLAIN') }}"
+        sasl_plain_username: "{{ sasl_plain_username | default(None) }}"
+        sasl_plain_password: "{{ sasl_plain_password | default(None) }}"
+  rules:
+    - name: log all
+      condition: true
+      action:
+        debug:
